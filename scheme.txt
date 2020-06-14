@@ -1,0 +1,21 @@
+Product:
+{% comment %} Category {% endcomment %}
+{% comment %} id {% endcomment %}
+{% comment %} Name {% endcomment %}
+{% comment %} Image {% endcomment %}
+{% comment %} Price {% endcomment %}
+{% comment %} Description {% endcomment %}
+{% comment %} qty_sold {% endcomment %}
+{% comment %} qty_availble {% endcomment %}
+{% comment %} rating {% endcomment %}
+{% comment %} star {% endcomment %}
+{% comment %} is_newarrival {% endcomment %}
+{% comment %} is_bestseller {% endcomment %}
+{% comment %} is_published {% endcomment %}
+{% comment %} is_sale {% endcomment %}
+Product_date:
+
+Category
+Category ID:
+name:
+manufactured_by:

@@ -1,0 +1,198 @@
+{% extends "base.html" %}
+<!--  -->
+{% load static %}
+<!--  -->
+
+{% block content %}
+<!--  -->
+<section class="hero-wrap hero-wrap-2" style="background-image: url('{% static 'images/bg_2.jpg' %}');" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text align-items-end justify-content-center">
+            <div class="col-md-9 ftco-animate mb-5 text-center">
+                <p class="breadcrumbs mb-0">
+                    <span class="mr-2">
+                        <a href="{% url 'index' %}">Home <i class="fa fa-chevron-right"></i></a>
+                    </span>
+                    <span class="mr-2">
+                        <a href="{% url 'products' %}" >Products <i class="fa fa-chevron-right"></i></a>
+                    </span>
+                </p>
+                <h2 class="mb-0 bread">Products</h2>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="row mb-4">
+                    <div class="col-md-12 d-flex justify-content-between align-items-center">
+                        <h4 class="product-select">Select Types of Products</h4>
+                        <select class="selectpicker" multiple>
+                        <option>Brandy</option>
+                        <option>Gin</option>
+                        <option>Rum</option>
+                        <option>Tequila</option>
+                        <option>Vodka</option>
+                        <option>Whiskey</option>
+                      </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <!--  -->
+                    {% if products %}
+                    <!--  -->
+                    {% for product in products %}
+                    <!--  -->
+                    <div class="col-md-4 d-flex">
+                        <div class="product ftco-animate">
+                            <div class="img d-flex align-items-center justify-content-center" style="background-image: url({{ product.photo.url }});">
+                                <div class="desc">
+                                    <p class="meta-prod d-flex">
+                                        <a href="#" class="d-flex align-items-center justify-content-center"><span class="flaticon-shopping-bag"></span></a>
+                                        <a href="#" class="d-flex align-items-center justify-content-center"><span class="flaticon-heart"></span></a>
+                                        <a href="{% url 'product' product.id %}" class="d-flex align-items-center justify-content-center"><span class="flaticon-visibility"></span></a>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="text text-center">
+                                {% if product.is_sale %}
+                                <span class="sale">Sale</span>
+                                <!--  -->
+                                {% endif %}
+                                <!--  -->
+                                {% if product.is_bestSeller %}
+                                <span class="sale">Best Sale</span>
+                                <!--  -->
+                                {% endif %}
+                                <!--  -->
+                                {% if product.is_newArrival %}
+                                <span class="sale">New Arrival</span>
+                                <!--  -->
+                                {% endif %}
+                                <!--  -->
+                                <span class="category">{{product.category}} </span>
+                                <h2>{{product.name}}</h2>
+                                <p class="mb-0">
+                                    <span {% if product.is_offer %} class="price price-sale" {% else %} class="price" {% endif %}>${{product.price}}</span> {% if product.is_offer %}
+                                    <span class="price">${{product.offer_price}}</span> {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <!--  -->
+                    {% endfor %}
+                    <!--  -->
+                    {% else %}
+                    <!--  -->
+                    No Products Available
+                    <!--  -->
+                    {% endif %}
+                    <!--  -->
+                </div>
+                <div class="row mt-5">
+                    <div class="col text-center">
+                        {% if products.has_other_pages %}
+                        <div class="block-27">
+
+                            <!--  -->
+                            <ul>
+                                {% if products.has_previous %}
+                                <li><a href="?page={{products.previous_page_number}}">&lt;</a></li>
+                                {% endif %}
+                                <!--  -->
+                                {% for i in products.paginator.page_range %}
+                                <!--  -->
+                                {% if products.number == i %}
+                                <li class="active"><span><a href="#">{{i}} </a></span></li>
+                                {% else %}
+                                <li><a href="?page={{i}}">{{i}} </a></li>
+                                {% endif %}
+                                <!--  -->
+                                {% endfor %} {% if products.has_next %}
+                                <!--  -->
+                                <li><a href="?page={{products.next_page_number}}">&gt; </a></li>
+                                <!--  -->
+                                {% endif %}
+
+                            </ul>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="sidebar-box ftco-animate">
+                    <div class="categories">
+                        <h3>Product Types</h3>
+                        <ul class="p-0">
+                            <li>
+                                <form action="{% url 'products' %}" method="POST">
+                                    {% csrf_token %}
+                                    <a href="javascript:;" onclick="parentNode.submit();">
+                                        All<span class="fa fa-chevron-right"></span>
+                                    </a>
+                                    <input type="hidden" name="name" value="All" />
+                                </form>
+                            </li>
+
+                            {% for category in categories %}
+                            <li>
+                                <form action="{% url 'products' %}" method="POST">
+                                    {% csrf_token %}
+                                    <a href="javascript:;" onclick="parentNode.submit();">
+                                        {{category.name}}<span class="fa fa-chevron-right"></span>
+                                    </a>
+                                    <input type="hidden" name="category" value="{{category.name}}" />
+                                </form>
+                            </li>
+
+                            {% endfor %}
+                            <!--  -->
+                        </ul>
+                    </div>
+                </div>
+
+
+                <div class="sidebar-box ftco-animate">
+                    <h3>Recent Blog</h3>
+                    <div class="block-21 mb-4 d-flex">
+                        <a class="blog-img mr-4" style="background-image: url({% static 'images/image_1.jpg' %});"></a>
+                        <div class="text">
+                            <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
+                            <div class="meta">
+                                <div><a href="#"><span class="fa fa-calendar"></span> Apr. 18, 2020</a></div>
+                                <div><a href="#"><span class="fa fa-comment"></span> 19</a></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="block-21 mb-4 d-flex">
+                        <a class="blog-img mr-4" style="background-image: url({% static 'images/image_2.jpg' %});"></a>
+                        <div class="text">
+                            <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
+                            <div class="meta">
+                                <div><a href="#"><span class="fa fa-calendar"></span> Apr. 18, 2020</a></div>
+                                <div><a href="#"><span class="fa fa-comment"></span> 19</a></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="block-21 mb-4 d-flex">
+                        <a class="blog-img mr-4" style="background-image: url({% static 'images/image_3.jpg' %});"></a>
+                        <div class="text">
+                            <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
+                            <div class="meta">
+                                <div><a href="#"><span class="fa fa-calendar"></span> Apr. 18, 2020</a></div>
+                                <div><a href="#"><span class="fa fa-comment"></span> 19</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
