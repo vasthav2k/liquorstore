@@ -64,6 +64,9 @@ TEMPLATES = [
         'OPTIONS': {
             'context_processors': [
                 'cart.context_processor.cart_total_amount',
+                'cart.context_processor.cart_delivery',
+                'cart.context_processor.cart_discount',
+                'cart.context_processor.cart_total',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
@@ -138,3 +141,14 @@ STATIC_ROOT=os.path.join(BASE_DIR,'static')
 
 MEDIA_ROOT=os.path.join(BASE_DIR,'media')
 MEDIA_URL='/media/'
+
+
+#CART
+
+CART_SESSION_ID = 'cart'
+
+from django.contrib.messages import constants as messages
+MESSAGE_TAGS={
+    messages.ERROR:'danger',
+    messages.SUCCESS:'success',
+}

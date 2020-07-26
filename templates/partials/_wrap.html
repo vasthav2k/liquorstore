@@ -17,7 +17,21 @@
                     </p>
                 </div>
                 <div class="reg">
-                    <p class="mb-0"><a href="#" class="mr-2">Sign Up</a> <a href="#">Log In</a></p>
+                    {% if user.is_authenticated %}
+                    <p class="mb-0"><a href="{% url 'index' %}" class="mr-2">Hey {{user.username}}</a>
+                        <a href="{% url 'logout' %}">Logout
+                        </a>
+                        <!-- <a href="javascript:{document.getElementById('logout').submit()}">Logout
+                            </a> -->
+                        <!-- <form action="{% url 'logout' %}" method="POST" id="logout">
+                            {% csrf_token %}
+                        </form> -->
+                    </p>
+                    {% else %}
+                    <p class="mb-0"><a href="{% url 'register' %}" class="mr-2">Sign Up</a> <a href="{% url 'login' %}">Log In</a></p>
+                    {% endif %}
+
+
                 </div>
             </div>
         </div>

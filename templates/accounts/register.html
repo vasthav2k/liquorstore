@@ -12,6 +12,8 @@
     </div>
 </section>
 
+{% include "partials/_alerts.html" %}
+
 <section class="ftco-section bg-light" style="background-color:black" data-stellar-background-ratio="0.5">
     <div class="container">
         <div class="row justify-content-center">
@@ -21,7 +23,8 @@
                         <div class="col-md-7">
                             <div class="contact-wrap w-100 p-md-5 p-4">
                                 <h3 class="mb-4">Register</h3>
-                                <form method="POST" id="contactForm" name="contactForm" class="contactForm">
+                                <form method="POST" id="contactForm" name="contactForm" class="contactForm" action="{% url 'register' %}">
+                                    {% csrf_token %}
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -61,7 +64,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input type="submit" value="Send Message" class="btn btn-primary">
+                                                <input type="submit" value="Register" class="btn btn-primary">
                                                 <div class="submitting"></div>
                                             </div>
                                         </div>

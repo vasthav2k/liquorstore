@@ -1,0 +1,104 @@
+{% extends "base.html" %} {% load static %}
+<!--  -->
+{% load cart_tag %}
+<!--  -->
+{% block content %}
+<section class="hero-wrap hero-wrap-2" style="background-image: url({% static 'images/bg_2.jpg' %});" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text align-items-end justify-content-center">
+            <div class="col-md-9 ftco-animate mb-5 text-center">
+                <p class="breadcrumbs mb-0"><span class="mr-2"><a href="{% url 'index' %}">Home <i class="fa fa-chevron-right"></i></a></span> <span>Cart <i class="fa fa-chevron-right"></i></span></p>
+                <h2 class="mb-0 bread">My Cart</h2>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="ftco-section">
+    {% if request.session.cart|length %}
+    <div class="container">
+        <div class="row">
+            <div class="table-wrap">
+                <table class="table">
+                    <thead class="thead-primary">
+                        <tr>
+                            <th>&nbsp;</th>
+                            <th>&nbsp;</th>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>total</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for key,value in request.session.cart.items %}
+                        <tr class="alert" role="alert">
+                            <td>
+                                <label class="checkbox-wrap checkbox-primary">
+                                        <input type="checkbox" checked>
+                                        <span class="checkmark"></span>
+                                      </label>
+                            </td>
+                            <td>
+                                <div class="img" style="background-image: url({{value.image}});"></div>
+                            </td>
+                            <td>
+                                <div class="email">
+                                    <span>{{value.name}}</span>
+                                    <span>Fugiat voluptates quasi nemo, ipsa perferendis</span>
+                                </div>
+                            </td>
+                            <td>${{value.price}}</td>
+                            <td class="quantity">
+                                <div class="input-group">
+                                    <input type="text" name="quantity" class="quantity form-control input-number" value="{{value.quantity}}" min="1" max="100">
+                                </div>
+                            </td>
+                            <td>${{value.price|multiply:value.quantity}}</td>
+                            <td>
+                                <!-- <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <a href="{% url 'clear' key %}"> <span aria-hidden="true"><i class="fa fa-close"></i></span></a>
+                             
+                            </button> -->
+                                <a href="{% url 'clear' key %}"> <span aria-hidden="true"><i class="fa fa-close"></i></span></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row justify-content-end">
+            <div class="col col-lg-5 col-md-6 mt-5 cart-wrap ftco-animate">
+                <div class="cart-total mb-3">
+                    <h3>Cart Totals</h3>
+                    <p class="d-flex">
+                        <span>Subtotal</span>
+                        <span>${{cart_total_amount}}</span>
+                    </p>
+                    <p class="d-flex">
+                        <span>Delivery</span>
+                        <span>+${{cart_delivery}}</span>
+                    </p>
+                    <p class="d-flex">
+                        <span>Discount</span>
+                        <span>-${{cart_discount}}</span>
+                    </p>
+                    <hr>
+                    <p class="d-flex total-price">
+                        <span>Total</span>
+                        <span>${{cart_total}}</span>
+                    </p>
+                </div>
+                <p class="text-center"><a href="{% url 'checkout' %}" class="btn btn-primary py-3 px-4">Proceed to Checkout</a></p>
+            </div>
+        </div>
+    </div>
+    {%else %}
+    <h4 class="text-center">Empty Cart</h4>
+    {% endif %}
+
+</section>
+{% endblock content %}

@@ -26,4 +26,5 @@ urlpatterns = [
     path('products/',include('products.urls')),
     url(r'^ratings/', include('star_ratings.urls', namespace='ratings')),
     path('accounts/',include('accounts.urls')),
+    path('cart/',include('cart.urls'))
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
